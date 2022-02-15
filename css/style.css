@@ -29,8 +29,18 @@
 }
 .calc-button{
 	background-color: rgb(217, 225, 250);
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+	cursor: pointer;
 }
 
+.calc-button.focus{
+	border: 1px solid red;
+}
 
 .calc-button.active{
 	background-color: rgb(222, 250, 217);
