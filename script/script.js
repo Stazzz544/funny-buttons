@@ -4,16 +4,13 @@ const display = document.querySelector('.calc-display');
 const calcDisplaySpan = document.querySelector('.calc-display-span');
 const allBtns = document.querySelectorAll('.calc-button');
 const displayResult = document.querySelector('.calc-result');
+const calcNumbersSpan = document.querySelector('.calc-span')
 
 const calcParams = {
 	isfocusInApp: false,
 	mathArr: [],
 	currentNum: null,
 	currentMathSign: null,
-}
-
-function consol(){
-	console.log('test')
 }
 
 function calcSwitchOn (event) {
@@ -33,6 +30,7 @@ function calcSwitchOn (event) {
 }
 
 function switchOnCulculator(display, buttons){
+	(displayResult.textContent.length < 1) ? displayResult.textContent = 0 : false
 	console.log('switchOnCulculator')
 	display.classList.add('active')
 	buttons.forEach(button => {button.classList.add('active')})
@@ -41,10 +39,6 @@ function switchOnCulculator(display, buttons){
 function focusButton(btnId, allBtns){
 	removeAllfocus(allBtns)
 	document.getElementById(`${btnId}`).classList.add('focus')
-}
-
-function arrowKeyBoard(){
-	const allBtns = document.querySelectorAll('.calc-button')
 }
 
 function removeAllfocus(buttons){
@@ -111,34 +105,94 @@ document.addEventListener('keydown', function(event) {
 	if (key === 'ArrowLeft' && activeKey === '9') focusButton('8', allBtns)
 
 	if (key === 'ArrowUp' && activeKey === '/') focusButton('*', allBtns)
-	if (key === 'ArrowDown' && activeKey === '/') focusButton('=', allBtns)
+	if (key === 'ArrowDown' && activeKey === '/') focusButton('-', allBtns)
 	if (key === 'ArrowRight' && activeKey === '/') focusButton('/', allBtns)
 	if (key === 'ArrowLeft' && activeKey === '/') focusButton('9', allBtns)
 
 	if (key === 'ArrowUp' && activeKey === 'AC') focusButton('7', allBtns)
-	if (key === 'ArrowDown' && activeKey === 'AC') focusButton('AC', allBtns)
+	if (key === 'ArrowDown' && activeKey === 'AC') focusButton('del', allBtns)
 	if (key === 'ArrowRight' && activeKey === 'AC') focusButton('0', allBtns)
 	if (key === 'ArrowLeft' && activeKey === 'AC') focusButton('AC', allBtns)
 
 	if (key === 'ArrowUp' && activeKey === '0') focusButton('8', allBtns)
-	if (key === 'ArrowDown' && activeKey === '0') focusButton('0', allBtns)
+	if (key === 'ArrowDown' && activeKey === '0') focusButton('del', allBtns)
 	if (key === 'ArrowRight' && activeKey === '0') focusButton('.', allBtns)
 	if (key === 'ArrowLeft' && activeKey === '0') focusButton('AC', allBtns)
 
 	if (key === 'ArrowUp' && activeKey === '.') focusButton('9', allBtns)
-	if (key === 'ArrowDown' && activeKey === '.') focusButton('.', allBtns)
-	if (key === 'ArrowRight' && activeKey === '.') focusButton('=', allBtns)
+	if (key === 'ArrowDown' && activeKey === '.') focusButton('=', allBtns)
+	if (key === 'ArrowRight' && activeKey === '.') focusButton('-', allBtns)
 	if (key === 'ArrowLeft' && activeKey === '.') focusButton('0', allBtns)
 
-	if (key === 'ArrowUp' && activeKey === '=') focusButton('/', allBtns)
+	if (key === 'ArrowUp' && activeKey === '-') focusButton('/', allBtns)
+	if (key === 'ArrowDown' && activeKey === '-') focusButton('=', allBtns)
+	if (key === 'ArrowRight' && activeKey === '-') focusButton('-', allBtns)
+	if (key === 'ArrowLeft' && activeKey === '-') focusButton('.', allBtns)
+
+	if (key === 'ArrowUp' && activeKey === '=') focusButton('-', allBtns)
 	if (key === 'ArrowDown' && activeKey === '=') focusButton('=', allBtns)
 	if (key === 'ArrowRight' && activeKey === '=') focusButton('=', allBtns)
-	if (key === 'ArrowLeft' && activeKey === '=') focusButton('.', allBtns)
+	if (key === 'ArrowLeft' && activeKey === '=') focusButton('del', allBtns)
+
+	if (key === 'ArrowUp' && activeKey === 'del') focusButton('AC', allBtns)
+	if (key === 'ArrowDown' && activeKey === 'del') focusButton('del', allBtns)
+	if (key === 'ArrowRight' && activeKey === 'del') focusButton('=', allBtns)
+	if (key === 'ArrowLeft' && activeKey === 'del') focusButton('del', allBtns)
 
 	if (key === 'Enter') {
 		mainCalcFunction(activeKey)
 	}
 });
+
+
+
+function mainCalcFunction(activeKey) {
+	
+
+	if (calcNumbersSpan.textContent.length < 1 &&  IsMathSymbolEntered(activeKey) && activeKey !== '-') {
+		console.log('I case')
+		return false
+	}else if(activeKey === 'AC') {
+		calcNumbersSpan.textContent = '';
+		displayResult.textContent = '0';
+	}else if(IsMathSymbolEntered(activeKey) && isLastvalueMathSymbol()) {
+		console.log('II case')
+		const string = calcNumbersSpan.textContent
+		calcNumbersSpan.textContent = changeLastSymbol(string, activeKey)
+	} else if(calcNumbersSpan.textContent.length > 0 && !IsMathSymbolEntered(activeKey) && activeKey !== '=' && activeKey !== 'del') {
+		console.log('III case')
+		const nullAfterNull = isNullAfterNull(calcNumbersSpan.textContent, activeKey)
+		nullAfterNull ? false : calcNumbersSpan.textContent += activeKey;
+		isFirstSymbolZero(calcNumbersSpan.textContent) ? calcNumbersSpan.textContent = activeKey : false;
+	} else if(activeKey === '=') {
+		console.log('IV case')
+		calcNumbersSpan.textContent = displayResult.textContent
+	} else if(activeKey === 'del') {
+		console.log('V case')
+		calcNumbersSpan.textContent = removeLastSymbol(calcNumbersSpan.textContent);
+		(displayResult.textContent.length <= 1) ? displayResult.textContent = 0 : false
+	} else {
+		console.log('else')
+		calcNumbersSpan.textContent += activeKey;
+	}
+	showResultOnDisplay(displayResult , calcNumbersSpan.textContent)
+}
+
+function showResultOnDisplay(resultPlace, result){
+	try {
+		const solution = new Function (`return ${(result)}`)
+		const resultNumber = parseFloat((solution()).toFixed(10))
+		resultPlace.textContent = resultNumber
+	} catch { 
+		return false
+	}
+}
+
+function changeLastSymbol(string, mathSymbol){
+	const arr = string.split('')
+	arr[arr.length-1] = mathSymbol
+	return arr.join('')
+}
 
 function IsMathSymbolEntered(activeKey){
 	if (activeKey === '+' || activeKey === '-' || activeKey === '*' || activeKey === '/' || activeKey === '.') {
@@ -146,64 +200,32 @@ function IsMathSymbolEntered(activeKey){
 	}
 }
 
-function getLastSpan(allSpan){
-	return allSpan[allSpan.length - 1]
+function isLastvalueMathSymbol(){
+	const mathNums = calcNumbersSpan.textContent
+	const lastSymbol = mathNums[mathNums.length-1]
+	return IsMathSymbolEntered(lastSymbol)
 }
 
-function isLastSpanMathSymbol(allSpan){
-	return IsMathSymbolEntered(getLastSpan(allSpan).textContent)
+function removeLastSymbol(string){
+	const arr = string.split('')
+	arr.pop()
+	return arr.join('')
 }
 
-function mainCalcFunction(activeKey) {
-	const allSpan = document.querySelectorAll('.calcSpan')
-	console.log(allSpan)
-
-	if (calcParams.mathArr.length < 1 &&  IsMathSymbolEntered(activeKey) && activeKey !== '-') {
-		console.log('I case')
-		return false
-
-	}else if(IsMathSymbolEntered(activeKey) && isLastSpanMathSymbol(allSpan)) {
-		console.log('II case')
-		getLastSpan(allSpan).textContent = activeKey
-		calcParams.currentMathSign = activeKey
-		
-	} else if(allSpan.length > 0 && !IsMathSymbolEntered(activeKey) && activeKey !== '=') {
-		console.log('III case')
-		allSpan[allSpan.length-1].textContent += activeKey
-	} else if(activeKey === '=') {
-		calcDisplaySpan.remove()
-		console.log('IV case')
+function isNullAfterNull(string, activeKey){
+	const arr = string.split('')
+	if (arr[arr[0]] == 0 && activeKey == 0) {
+		return true
 	} else {
-		console.log('else')
-		let span = document.createElement('span')
-		span.classList.add('calcSpan')
-		span.textContent += activeKey
-		calcDisplaySpan.append(span)
-		calcParams.mathArr.push(activeKey)
+		return false
+	}	
+}
+
+function isFirstSymbolZero(string) {
+	if (string[0] == 0 && string[0] == 0) {
+		return true
 	}
-	//displayResult
-	showResultOnDisplay(displayResult ,getAllTextContentFromSpans(allSpan))
 }
-
-function showResultOnDisplay(resultPlace, result){
-	resultPlace.textContent = eval(result)
-	console.log(eval(result))
-}
-
-function getAllTextContentFromSpans(allSpan){
-	const textContentArr = []
-	allSpan.forEach(textContent => {textContentArr.push(textContent.textContent) })
-	return textContentArr.join('') 
-}
-
-//console.log(eval('2+2/2*2*111'))
-
-
-
-
-
-
-
 
 window.addEventListener("keydown", function(e) {
 	// space and arrow keys
@@ -212,9 +234,3 @@ window.addEventListener("keydown", function(e) {
 	}
  }, false);
 
- //ArrowUp
-//ArrowDown
-//ArrowRight
-//ArrowLeft
-
-//if (activeKey === '+' || activeKey === '-' || activeKey === '*' || activeKey === '/'){}

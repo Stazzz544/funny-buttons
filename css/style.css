@@ -35,8 +35,14 @@ font-size: 20px;
 	font-size: 30px;
 	font-weight: 600;
 }
-.calc_display.active{
-	background-color: rgb(255, 251, 40)
+.calc-display.active{
+	background-color: rgb(243, 242, 167);
+	box-shadow: 0px 0px 25px rgb(222, 235, 50);
+}
+
+.funcButton.special{
+	width: 45%;
+	border-radius: 30px
 }
 
 .calc-button{
@@ -67,7 +73,8 @@ font-size: 20px;
 }
 
 .calc-button.focus{
-	outline: 5px solid rgb(222, 235, 50);
+	outline: 2px solid rgb(222, 235, 50);
+	box-shadow: 0px 0px 45px rgb(222, 235, 50);;
 }
 
 .calc-button.active{
