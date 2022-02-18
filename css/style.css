@@ -14,13 +14,27 @@
 	justify-content: space-between;
 }
 
-.calc_display{
+.calc-display{
 	height: 80px;
 	width: 100%;
 	background-color: rgb(226, 242, 255);
 	text-align: right;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around
 }
 
+.calcSpan{
+font-size: 20px;
+}
+.calc-display-span{
+	margin-right: 10px;
+}
+.calc-result{
+	margin-right: 10px;
+	font-size: 30px;
+	font-weight: 600;
+}
 .calc_display.active{
 	background-color: rgb(255, 251, 40)
 }

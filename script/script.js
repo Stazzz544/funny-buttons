@@ -1,14 +1,15 @@
 const calculator = document.querySelector('.calc_wrapper')
 calculator.onclick = calcSwitchOn
-const display = document.querySelector('.calc_display');
+const display = document.querySelector('.calc-display');
+const calcDisplaySpan = document.querySelector('.calc-display-span');
 const allBtns = document.querySelectorAll('.calc-button');
+const displayResult = document.querySelector('.calc-result');
 
 const calcParams = {
 	isfocusInApp: false,
-	specialSymbol: null,
-	equal: false,
-	firstNum: null,
-	secondNum: null,
+	mathArr: [],
+	currentNum: null,
+	currentMathSign: null,
 }
 
 function consol(){
@@ -29,8 +30,6 @@ function calcSwitchOn (event) {
 		removeAllfocus(allBtns)
 		target.classList.add('focus')
 	}
-	
-
 }
 
 function switchOnCulculator(display, buttons){
@@ -137,48 +136,74 @@ document.addEventListener('keydown', function(event) {
 	if (key === 'ArrowLeft' && activeKey === '=') focusButton('.', allBtns)
 
 	if (key === 'Enter') {
-
-		if (activeKey === '+' || activeKey === '-' || activeKey === '*' || activeKey === '/' || activeKey === '.') {
-			calcParams.specialSymbol = activeKey
-			simbolToDisplay(activeKey)
-		} else {
-			numToObject(activeKey)
-			numToDisplay(calcParams.firstNum)
-		}
+		mainCalcFunction(activeKey)
 	}
 });
 
-function simbolToDisplay(activeKey){
-	const displayInner = display.innerHTML.split('');
-	if (typeof(+displayInner[displayInner.length-1] === 'number')) {
-		displayInner.push(activeKey)
-		display.innerHTML = displayInner.join('')
-	} else {
-		
-	}
-	
-}
-
-function numToDisplay(activeKey){
-	display.innerHTML = activeKey
-
-}
-
-function numToObject(activeKey){
-	calcParams.firstNum ? calcParams.firstNum += activeKey : calcParams.firstNum = activeKey
-	console.log(calcParams.firstNum)
-}
-
-function addToCalcParams(){
-
-}
-
-function specialSymbol(activeKey){
+function IsMathSymbolEntered(activeKey){
 	if (activeKey === '+' || activeKey === '-' || activeKey === '*' || activeKey === '/' || activeKey === '.') {
-		display.innerHTML + activeKey
+		return true
 	}
-	return false
 }
+
+function getLastSpan(allSpan){
+	return allSpan[allSpan.length - 1]
+}
+
+function isLastSpanMathSymbol(allSpan){
+	return IsMathSymbolEntered(getLastSpan(allSpan).textContent)
+}
+
+function mainCalcFunction(activeKey) {
+	const allSpan = document.querySelectorAll('.calcSpan')
+	console.log(allSpan)
+
+	if (calcParams.mathArr.length < 1 &&  IsMathSymbolEntered(activeKey) && activeKey !== '-') {
+		console.log('I case')
+		return false
+
+	}else if(IsMathSymbolEntered(activeKey) && isLastSpanMathSymbol(allSpan)) {
+		console.log('II case')
+		getLastSpan(allSpan).textContent = activeKey
+		calcParams.currentMathSign = activeKey
+		
+	} else if(allSpan.length > 0 && !IsMathSymbolEntered(activeKey) && activeKey !== '=') {
+		console.log('III case')
+		allSpan[allSpan.length-1].textContent += activeKey
+	} else if(activeKey === '=') {
+		calcDisplaySpan.remove()
+		console.log('IV case')
+	} else {
+		console.log('else')
+		let span = document.createElement('span')
+		span.classList.add('calcSpan')
+		span.textContent += activeKey
+		calcDisplaySpan.append(span)
+		calcParams.mathArr.push(activeKey)
+	}
+	//displayResult
+	showResultOnDisplay(displayResult ,getAllTextContentFromSpans(allSpan))
+}
+
+function showResultOnDisplay(resultPlace, result){
+	resultPlace.textContent = eval(result)
+	console.log(eval(result))
+}
+
+function getAllTextContentFromSpans(allSpan){
+	const textContentArr = []
+	allSpan.forEach(textContent => {textContentArr.push(textContent.textContent) })
+	return textContentArr.join('') 
+}
+
+//console.log(eval('2+2/2*2*111'))
+
+
+
+
+
+
+
 
 window.addEventListener("keydown", function(e) {
 	// space and arrow keys
