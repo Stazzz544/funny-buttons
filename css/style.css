@@ -1,14 +1,23 @@
 .calc_wrapper{
+	margin: 30px auto 0 auto;
 	background-color:rgb(36, 36, 36);
 	width: 300px;
-	height: 450px;
-
-	padding: 40px;
+	height: 470px;
+	position: relative;
+	padding: 60px 40px 40px 40px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	border-radius: 8px;
 }
+
+.calc-logo{
+	font-size: 30px;
+	color: rgb(241, 239, 239);
+	position: absolute;
+	top: 20px;
+}
+
 .calk_line_1-3, .calk_line_4-6, .calk_line_7-9 {
 	display: flex;
 	justify-content: space-between;
@@ -21,7 +30,23 @@
 	text-align: right;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around
+	justify-content: space-around;
+	margin-bottom: 20px;
+}
+
+.calc-battary_sun-charger{
+	width: 100px;
+	height: 25px;
+	/* border: solid 1px brown; */
+	display: flex;
+	position: absolute;
+	top: 25px;
+	right: 40px;
+}
+.calc-battary_sun-charger-part{
+	border-right: solid 1px #893737;
+	background-color: rgb(211, 126, 77);
+	flex: 1 1
 }
 
 .calcSpan{
@@ -43,6 +68,11 @@ font-size: 20px;
 .funcButton.special{
 	width: 45%;
 	border-radius: 30px
+}
+
+.funcButton.star{
+	display: block;
+	line-height: 71px;
 }
 
 .calc-button{
@@ -68,7 +98,6 @@ font-size: 20px;
 }
 
 .calc-button.funcButton.ac{
-
 	font-size: 30px;
 }
 
@@ -77,6 +106,12 @@ font-size: 20px;
 	box-shadow: 0px 0px 45px rgb(222, 235, 50);;
 }
 
-.calc-button.active{
+.instruction{
+	margin-top: 50px;
+	width: 380px;
+	margin: 0 auto;
+}
 
+.instruction_title{
+	text-align: center;
 }

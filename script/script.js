@@ -40,99 +40,36 @@ function removeAllfocus(buttons){
 	buttons.forEach(button => button.classList.remove('focus'));
 }
 
+
+function keyBoardLestener(key, activeKey, keyCheck,up, down, right, left) {
+	if (key === 'ArrowUp' && activeKey === keyCheck) focusButton(up, allBtns)
+	if (key === 'ArrowDown' && activeKey === keyCheck) focusButton(down, allBtns);
+	if (key === 'ArrowRight' && activeKey === keyCheck) focusButton(right, allBtns);
+	if (key === 'ArrowLeft' && activeKey === keyCheck) focusButton(left, allBtns);
+}
+
 document.addEventListener('keydown', function(event) {
 	const key = event.code;
 	const activeKey = document.querySelector('.focus').textContent;
 
-	if (key === 'ArrowUp' && activeKey === '1') focusButton('1', allBtns);
-	if (key === 'ArrowDown' && activeKey === '1') focusButton('4', allBtns);
-	if (key === 'ArrowRight' && activeKey === '1') focusButton('2', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '1') focusButton('1', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '2') focusButton('2', allBtns);
-	if (key === 'ArrowDown' && activeKey === '2') focusButton('5', allBtns);
-	if (key === 'ArrowRight' && activeKey === '2') focusButton('3', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '2') focusButton('1', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '3') focusButton('3', allBtns);
-	if (key === 'ArrowDown' && activeKey === '3') focusButton('6', allBtns);
-	if (key === 'ArrowRight' && activeKey === '3') focusButton('+', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '3') focusButton('2', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '+') focusButton('+', allBtns);
-	if (key === 'ArrowDown' && activeKey === '+') focusButton('*', allBtns);
-	if (key === 'ArrowRight' && activeKey === '+') focusButton('+', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '+') focusButton('3', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '4') focusButton('1', allBtns);
-	if (key === 'ArrowDown' && activeKey === '4') focusButton('7', allBtns);
-	if (key === 'ArrowRight' && activeKey === '4') focusButton('5', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '4') focusButton('4', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '5') focusButton('2', allBtns);
-	if (key === 'ArrowDown' && activeKey === '5') focusButton('8', allBtns);
-	if (key === 'ArrowRight' && activeKey === '5') focusButton('6', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '5') focusButton('4', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '6') focusButton('3', allBtns);
-	if (key === 'ArrowDown' && activeKey === '6') focusButton('9', allBtns);
-	if (key === 'ArrowRight' && activeKey === '6') focusButton('*', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '6') focusButton('5', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '*') focusButton('+', allBtns);
-	if (key === 'ArrowDown' && activeKey === '*') focusButton('/', allBtns);
-	if (key === 'ArrowRight' && activeKey === '*') focusButton('*', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '*') focusButton('6', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '7') focusButton('4', allBtns);
-	if (key === 'ArrowDown' && activeKey === '7') focusButton('AC', allBtns);
-	if (key === 'ArrowRight' && activeKey === '7') focusButton('8', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '7') focusButton('7', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '8') focusButton('5', allBtns);
-	if (key === 'ArrowDown' && activeKey === '8') focusButton('0', allBtns);
-	if (key === 'ArrowRight' && activeKey === '8') focusButton('9', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '8') focusButton('7', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '9') focusButton('6', allBtns);
-	if (key === 'ArrowDown' && activeKey === '9') focusButton('.', allBtns);
-	if (key === 'ArrowRight' && activeKey === '9') focusButton('/', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '9') focusButton('8', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '/') focusButton('*', allBtns);
-	if (key === 'ArrowDown' && activeKey === '/') focusButton('-', allBtns);
-	if (key === 'ArrowRight' && activeKey === '/') focusButton('/', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '/') focusButton('9', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === 'AC') focusButton('7', allBtns);
-	if (key === 'ArrowDown' && activeKey === 'AC') focusButton('del', allBtns);
-	if (key === 'ArrowRight' && activeKey === 'AC') focusButton('0', allBtns);
-	if (key === 'ArrowLeft' && activeKey === 'AC') focusButton('AC', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '0') focusButton('8', allBtns);
-	if (key === 'ArrowDown' && activeKey === '0') focusButton('del', allBtns);
-	if (key === 'ArrowRight' && activeKey === '0') focusButton('.', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '0') focusButton('AC', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '.') focusButton('9', allBtns);
-	if (key === 'ArrowDown' && activeKey === '.') focusButton('=', allBtns);
-	if (key === 'ArrowRight' && activeKey === '.') focusButton('-', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '.') focusButton('0', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '-') focusButton('/', allBtns);
-	if (key === 'ArrowDown' && activeKey === '-') focusButton('=', allBtns);
-	if (key === 'ArrowRight' && activeKey === '-') focusButton('-', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '-') focusButton('.', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === '=') focusButton('-', allBtns);
-	if (key === 'ArrowDown' && activeKey === '=') focusButton('=', allBtns);
-	if (key === 'ArrowRight' && activeKey === '=') focusButton('=', allBtns);
-	if (key === 'ArrowLeft' && activeKey === '=') focusButton('del', allBtns);
-
-	if (key === 'ArrowUp' && activeKey === 'del') focusButton('AC', allBtns);
-	if (key === 'ArrowDown' && activeKey === 'del') focusButton('del', allBtns);
-	if (key === 'ArrowRight' && activeKey === 'del') focusButton('=', allBtns);
-	if (key === 'ArrowLeft' && activeKey === 'del') focusButton('del', allBtns);
+	keyBoardLestener(key, activeKey, '1','1','4','2','1')
+	keyBoardLestener(key, activeKey, '2','2','5','3','1')
+	keyBoardLestener(key, activeKey, '3','3','6','+','2')
+	keyBoardLestener(key, activeKey, '+','+','*','+','3')
+	keyBoardLestener(key, activeKey, '4','1','7','5','4')
+	keyBoardLestener(key, activeKey, '5','2','8','6','4')
+	keyBoardLestener(key, activeKey, '6','3','9','*','5')
+	keyBoardLestener(key, activeKey, '*','+','/','*','6')
+	keyBoardLestener(key, activeKey, '7','4','AC','8','7')
+	keyBoardLestener(key, activeKey, '8','5','0','9','7')
+	keyBoardLestener(key, activeKey, '9','6','.','/','8')
+	keyBoardLestener(key, activeKey, '/','*','-','/','9')
+	keyBoardLestener(key, activeKey, 'AC','7','del','0','AC')
+	keyBoardLestener(key, activeKey, '0','8','del','.','AC')
+	keyBoardLestener(key, activeKey, '.','9','=','-','0')
+	keyBoardLestener(key, activeKey, '-','/','=','-','.')
+	keyBoardLestener(key, activeKey, '=','-','=','=','del')
+	keyBoardLestener(key, activeKey, 'del','AC','del','=','del')
 
 	if (key === 'Enter') mainCalcFunction(activeKey);
 });
@@ -140,7 +77,6 @@ document.addEventListener('keydown', function(event) {
 
 
 function mainCalcFunction(activeKey) {
-	
 	if (calcNumbersSpan.textContent.length < 1 &&  IsMathSymbolEntered(activeKey) && activeKey !== '-') {
 		console.log('I case');
 		return false;
@@ -174,7 +110,7 @@ function showResultOnDisplay(resultPlace, result){
 	try {
 		const solution = new Function (`return ${(result)}`);
 		const resultNumber = parseFloat((solution()).toFixed(10));
-		resultPlace.textContent = resultNumber;
+		(resultNumber == Infinity) ? resultPlace.textContent = 'Wrong operation...' : resultPlace.textContent = resultNumber;
 	} catch { 
 		return false;
 	}
