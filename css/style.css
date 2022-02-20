@@ -37,7 +37,6 @@
 .calc-battary_sun-charger{
 	width: 100px;
 	height: 25px;
-	/* border: solid 1px brown; */
 	display: flex;
 	position: absolute;
 	top: 25px;
@@ -89,6 +88,11 @@ font-size: 20px;
 	line-height: 32px;
 	color: white;
 	font-weight: 600;
+	transition: 0.3s all;
+}
+
+.calc-button.checked{
+	background-color: rgb(133, 133, 133);
 }
 
 .calc-button.funcButton{
@@ -97,13 +101,20 @@ font-size: 20px;
 	font-size: 40px;
 }
 
+.calc-button.funcButton.checked{
+	background-color: rgb(199, 136, 0);
+}
+
 .calc-button.funcButton.ac{
 	font-size: 30px;
 }
 
 .calc-button.focus{
-	outline: 2px solid rgb(222, 235, 50);
-	box-shadow: 0px 0px 45px rgb(222, 235, 50);;
+	box-shadow: 0px 0px 35px rgb(222, 235, 50);
+}
+
+.calc-button.focus.checked{
+	box-shadow: 0px 0px 15px rgb(222, 235, 50);
 }
 
 .instruction{
@@ -115,3 +126,5 @@ font-size: 20px;
 .instruction_title{
 	text-align: center;
 }
+
+
