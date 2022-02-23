@@ -7,8 +7,10 @@ const displayResult = document.querySelector('.calc-result');
 const calcNumbersSpan = document.querySelector('.calc-span');
 
 const calcParams = {
-	timerToOffValue: 30,
-	timerToOff: 30,
+	timerToOffValue: 15,
+	timerToOff: null,
+	setIntervalOn: null,
+
 	isfocusInApp: false,
 	calcNav: [
 		{ keyCheck: '1', up: '1', down: '4', right: '2', left: '1' },
@@ -32,13 +34,13 @@ const calcParams = {
 		{ keyCheck: 'del', up: 'AC', down: 'del', right: '=', left: 'del' },
 	],
 	calcTimerStart(){
-		this.timerToOff -= 1
+		this.timerToOff -= 1;
 	}
 }
 
 function calcSwitchOn(event) {
 	calcOffTimerClear('off')
-	calcOffTimer();
+	calcOffTimerStart();
 	const target = event.target;
 	switchOnCulculator(display, allBtns);
 
@@ -78,12 +80,26 @@ function keyBoardLestener(key, activeKey) {
 	})
 }
 
+function cheatFunc() {
+	if (calcNumbersSpan.textContent == '5440'){
+		console.log('cheat active');
+		display.classList.add('cheat');
+		calcParams.timerToOff = 99999;
+		calcParams.timerToOffValue = 99999;
+	}
+}
+
+
 document.addEventListener('keydown', function (event) {
-	calcParams.timerToOff = calcParams.timerToOffValue
-	const key = event.code;
-	const activeKey = document.querySelector('.focus').textContent;
-	keyBoardLestener(key, activeKey)
-	if (key === 'Enter') mainCalcFunction(activeKey);
+	try{
+		calcParams.timerToOff = calcParams.timerToOffValue
+		const key = event.code;
+		const activeKey = document.querySelector('.focus').textContent;
+		keyBoardLestener(key, activeKey)
+		if (key === 'Enter') mainCalcFunction(activeKey);
+	} catch{
+		console.log('calculator is not active')
+	}
 });
 
 function mainCalcFunction(activeKey) {
@@ -109,14 +125,29 @@ function mainCalcFunction(activeKey) {
 		console.log('V case');
 		calcNumbersSpan.textContent = removeLastSymbol(calcNumbersSpan.textContent);
 		(displayResult.textContent.length <= 1) ? displayResult.textContent = 0 : false;
+	} else if (activeKey === '.') {
+	 	console.log('IV case');
+		 isDotInNum(calcNumbersSpan.textContent, activeKey)
+
 	} else {
 		console.log('else');
 		calcNumbersSpan.textContent += activeKey;
 	}
 
-	document.getElementById(activeKey).classList.add('checked')
-
+	cheatFunc();
+	document.getElementById(activeKey).classList.add('checked');
 	showResultOnDisplay(displayResult, calcNumbersSpan.textContent);
+}
+
+function isDotInNum(string, activeKey){
+	let dotsInLastNumber = 0;
+	const separators = [ '\\\+', '-','\\*', '/'];
+	const arrWithoutMathSymbols = string.split(new RegExp(separators.join('|'), 'g'));
+	const lastNumber = arrWithoutMathSymbols[arrWithoutMathSymbols.length-1].split('')
+	lastNumber.forEach(elem => {
+		if (elem === '.') {dotsInLastNumber++;}
+	})
+	dotsInLastNumber < 1 ? calcNumbersSpan.textContent += activeKey : false
 }
 
 function showResultOnDisplay(resultPlace, result) {
@@ -158,34 +189,32 @@ function removeLastSymbol(string) {
 
 function isNullAfterNull(string, activeKey) {
 	const arr = string.split('');
-	if (arr[arr[0]] == 0 && activeKey == 0) { return true };
+	if (arr[0] == 0 && activeKey == 0 && arr[1] != '.') { return true };
 	return false;
 }
 
 function isFirstSymbolZero(string) {
-	if (string[0] == 0 && string[0] == 0) { return true };
+	if (string[0] == 0 && string[0] == 0 && string[1] != '.') { return true };
 }
 
-function calcOffTimer(off){
-	calcParams.timerToOff = calcParams.timerToOffValue;
-	const timerToOffCalc = setInterval(() => {
+function calcOffTimerStart(){
+	calcParams.timerToOff = calcParams.timerToOffValue
+	calcParams.setIntervalOn = setInterval(() => {
 		calcParams.calcTimerStart();
 		console.log('before calc off: ', calcParams.timerToOff)
-		calcOffTimerClear(timerToOffCalc)
+		if(calcParams.timerToOff == 0) {
+			clearInterval(calcParams.setIntervalOn)
+			displayResult.textContent = '';
+			calcNumbersSpan.textContent = '';
+			display.classList.remove('active')
+			allBtns.forEach(btn => btn.classList.remove('focus'))
+		}
 	}, 1000)
-	if (off = 'off') {
-		calcOffTimerClear(timerToOffCalc)
-	}
 }
 
-function calcOffTimerClear(timerToOffCalc) {
-	if(!calcParams.timerToOff ) {
-		clearInterval(timerToOffCalc);
-		calcParams.timerToOff = calcParams.timerToOffValue;
-		display.classList.remove('active');
-		allBtns.forEach(btn => btn.classList.remove('focus'));
-		displayResult.textContent = '';
-		calcNumbersSpan.textContent = '';
+function calcOffTimerClear() {
+	if(calcParams.setIntervalOn) {
+		clearInterval(calcParams.setIntervalOn)
 	}
 }
 
