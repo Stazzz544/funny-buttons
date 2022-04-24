@@ -129,6 +129,7 @@ font-size: 20px;
 	margin-top: 50px;
 	width: 380px;
 	margin: 0 auto;
+	padding-bottom: 30px;
 }
 
 .instruction_title{
@@ -147,4 +148,16 @@ font-size: 20px;
 
 body{
 	font-family:sans-serif
+}
+
+.link-wrapper{
+	text-align: center;
+}
+
+.link-wrapper a{
+	color:rgb(255, 174, 0);
+	text-decoration: none;
+	font-weight: 700;
+	text-shadow:  1px 1px 2px black;
+	letter-spacing: 3px;
 }
